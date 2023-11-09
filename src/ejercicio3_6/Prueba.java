@@ -1,10 +1,13 @@
 package ejercicio3_6;
+import ejercicio3_7.Curso;
+import ejercicio3_7.Estudiante;
+
 import java.util.*;
 public class Prueba {
     public static void main(String[] args) {
 
 
-        Tienda tienda = new Tienda("Tienda Cuántica", "Pepito Pérez", 123456,5);
+        Tienda tienda = new Tienda("Tienda Cuántica", "Pepito Pérez", 123456, 5);
         Computador computador1 = new Computador("Acer", 50, "Intel iCore 7", "Windows", 18500000);
         Computador computador2 = new Computador("Toshiba", 80, "Intel iCore 5", "Windows", 15500000);
         Computador computador3 = new Computador("Mac", 100, "Intel iCore 7", "Mac", 2500000);
@@ -20,42 +23,61 @@ public class Prueba {
 
         System.out.println("--------------------------------------------------------------------------------------");
 
-        Curso curso = new Curso();
         Scanner scanner = new Scanner(System.in);
+        int cantidadMaximaEstudiantes = 20;
+        ejercicio3_7.Curso curso = new Curso(cantidadMaximaEstudiantes);
 
-        // Añadir estudiantes al curso
-        curso.añadirEstudiante(new Estudiante("Nombre1", "Apellido1", 1, 2, 3.5));
-        curso.añadirEstudiante(new Estudiante("Nombre2", "Apellido2", 2, 3, 4.0));
-        curso.añadirEstudiante(new Estudiante("Nombre3", "Apellido3", 3, 1, 2.8));
+        while (true) {
+            System.out.println("Menú:");
+            System.out.println("1. Añadir estudiante");
+            System.out.println("2. Buscar estudiante por código");
+            System.out.println("3. Eliminar estudiante por código");
+            System.out.println("4. Calcular promedio del curso");
+            System.out.println("5. Obtener cantidad y porcentaje de estudiantes aprobados");
+            System.out.println("6. Salir");
+            System.out.print("Ingrese su opción: ");
+            int opcion = scanner.nextInt();
 
-        // Solicitar código para buscar y eliminar estudiante
-        System.out.print("Ingrese el código del estudiante a buscar y eliminar: ");
-        int codigoBuscar = scanner.nextInt();
-
-        Estudiante estudiante = curso.buscarEstudiante(codigoBuscar);
-        if (estudiante != null) {
-            estudiante.mostrarInformacion();
-            System.out.print("¿Está seguro que desea eliminar este estudiante? (Sí/No): ");
-            String confirmacion = scanner.next();
-            if (confirmacion.equalsIgnoreCase("Sí")) {
-                curso.eliminarEstudiante(codigoBuscar);
+            switch (opcion) {
+                case 1:
+                    ejercicio3_7.Estudiante estudiante = new ejercicio3_7.Estudiante();
+                    curso.añadirEstudiante(estudiante);
+                    break;
+                case 2:
+                    System.out.print("Ingrese el código del estudiante a buscar: ");
+                    int codigoBuscar = scanner.nextInt();
+                    Estudiante estudianteEncontrado = curso.buscarEstudiante(codigoBuscar);
+                    if (estudianteEncontrado != null) {
+                        estudianteEncontrado.mostrarInformacion();
+                    } else {
+                        System.out.println("Estudiante no encontrado.");
+                    }
+                    break;
+                case 3:
+                    System.out.print("Ingrese el código del estudiante a eliminar: ");
+                    int codigoEliminar = scanner.nextInt();
+                    curso.eliminarEstudiante(codigoEliminar);
+                    break;
+                case 4:
+                    double promedio = curso.calcularPromedio();
+                    System.out.println("Promedio del curso: " + promedio);
+                    break;
+                case 5:
+                    int cantidadAprobados = curso.obtenerCantidadEstudiantesAprobados();
+                    double porcentajeAprobados = curso.obtenerPorcentajeEstudiantesAprobados();
+                    System.out.println("Cantidad de estudiantes aprobados: " + cantidadAprobados);
+                    System.out.println("Porcentaje de estudiantes aprobados: " + porcentajeAprobados + "%");
+                    break;
+                case 6:
+                    System.out.println("¡Hasta luego!");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opción no válida. Por favor, ingrese una opción válida.");
             }
-        } else {
-            System.out.println("Estudiante no encontrado.");
+
+
         }
 
-        // Calcular promedio y mostrar resultados
-        double promedio = curso.calcularPromedio();
-        int cantidadAprobados = curso.obtenerCantidadEstudiantesAprobados();
-        double porcentajeAprobados = curso.obtenerPorcentajeEstudiantesAprobados();
-
-        System.out.println("Promedio del curso: " + promedio);
-        System.out.println("Cantidad de estudiantes aprobados: " + cantidadAprobados);
-        System.out.println("Porcentaje de estudiantes aprobados: " + porcentajeAprobados + "%");
-
-
-
-
     }
-
 }
